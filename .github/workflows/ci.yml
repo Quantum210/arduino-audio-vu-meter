@@ -9,15 +9,26 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v4
+
       - name: Install Arduino CLI
         run: |
           curl -fsSL https://raw.githubusercontent.com/arduino/arduino-cli/master/install.sh | sh
-          echo "C:\Users\£ukasz/bin" >> 
-      - name: Update cores
+          echo "$HOME/bin" >> $GITHUB_PATH
+
+      - name: Configure Arduino CLI
         run: |
+          arduino-cli config init --overwrite
           arduino-cli core update-index
           arduino-cli core install arduino:avr
+
+      - name: Install libraries
+        run: |
+          arduino-cli lib install "Adafruit GFX Library"
+          arduino-cli lib install "Adafruit SSD1306"
+
       - name: Compile sketch
         run: arduino-cli compile --fqbn arduino:avr:uno ./arduino-audio-vu-meter
+
