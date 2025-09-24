@@ -1,0 +1,24 @@
+# Arduino / build artefacts
+*.hex
+*.elf
+*.eep
+*.bin
+*.map
+*.o
+*.a
+build/
+*.log
+
+# PlatformIO
+.pio/
+.pioenvs/
+
+# IDEs/editors
+.vscode/
+.idea/
+*.sublime-*
+*.code-workspace
+
+# OS
+.DS_Store
+Thumbs.db
