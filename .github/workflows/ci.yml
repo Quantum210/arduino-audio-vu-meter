@@ -11,29 +11,35 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1. Pobranie repo
+      # 1. Checkout repo
       - uses: actions/checkout@v4
 
-      # 2. Instalacja Arduino CLI
+      # 2. Install Arduino CLI
       - name: Install Arduino CLI
         run: |
           curl -fsSL https://raw.githubusercontent.com/arduino/arduino-cli/master/install.sh | sh
-          echo "$PWD/bin" >> $GITHUB_PATH
-          arduino-cli version
 
-      # 3. Instalacja Arduino AVR Core (UNO)
+      # 3. Add Arduino CLI to PATH
+      - name: Add Arduino CLI to PATH
+        run: echo "$PWD/arduino-audio-vu-meter/bin" >> $GITHUB_PATH
+
+      # 4. Verify Arduino CLI
+      - name: Verify Arduino CLI
+        run: arduino-cli version
+
+      # 5. Install Arduino AVR Core (UNO)
       - name: Install Arduino AVR Core
         run: |
           arduino-cli core update-index
           arduino-cli core install arduino:avr
 
-      # 4. Instalacja wymaganych bibliotek
+      # 6. Install required libraries
       - name: Install libraries
         run: |
           arduino-cli lib install "Adafruit GFX Library"
           arduino-cli lib install "Adafruit SSD1306"
 
-      # 5. Kompilacja szkicu
+      # 7. Compile Arduino sketch
       - name: Compile Arduino Sketch
         run: |
           arduino-cli compile --fqbn arduino:avr:uno ./arduino-audio-vu-meter
